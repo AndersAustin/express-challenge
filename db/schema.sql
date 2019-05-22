@@ -16,11 +16,11 @@ my capabilities in that area
 
 CREATE TABLE books (
   book_id SERIAL PRIMARY KEY,
-  title VARCHAR (100) NOT NULL,
-  authors varchar(100) not null, --concatenated array
+  title VARCHAR (200) NOT NULL,
+  authors varchar(200) not null, --concatenated array
   descr varchar(140) not null,
-  categories varchar(100) not null, --concatenated array
-  publisher varchar(100) not null,
+  categories varchar(200) not null, --concatenated array
+  publisher varchar(200) not null,
   Published_date varchar(20) not null,
   preview_link varchar(500) not null,
   searchHistory_id INT references searchHistory(searchHistory_id)

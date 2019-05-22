@@ -57,22 +57,27 @@ const postSearch = (searchString, cb) => {
 };
 
 const postBooks = (data, searchHistory_id, cb) => {
-    client.query(`insert into books (title, authors, descr, categories, publisher, published_date, preview_link, searchHistory_id) 
-    values ('${data.title ? data.title.replace(`'`,`''`) : ''}', 
-            '${data.authors ? data.authors.join(', ').replace(`'`,`''`) : ''}', 
-            '${data.description ? data.description.slice(0,140).replace(`'`,`''`) : ''}', 
-            '${data.categories ? data.categories.join(', ').replace(`'`,`''`) : ''}',
-            '${data.publisher ? data.publisher.replace(`'`,`''`) : ''}', 
-            '${data.publishedDate ? data.publishedDate.replace(`'`,`''`) : ''}',
-            '${data.previewLink ? data.previewLink : ''}',
-            ${searchHistory_id})`, 
-            (err, data) => {
-                if (err) {
-                    cb(err);
-                } else {
-                    cb(null, data);
-                }
-            })
+    let queryString = '';
+    for (let i = 0; i < data.length; i++) {
+        queryString += (`insert into books (title, authors, descr, categories, publisher, published_date, preview_link, searchHistory_id) 
+                values ('${data[i].volumeInfo.title ? data[i].volumeInfo.title.replace(new RegExp("'",'g'), `''`) : ''}', 
+                '${data[i].volumeInfo.authors ? data[i].volumeInfo.authors.join(', ').replace(new RegExp("'",'g'), `''`) : ''}', 
+                '${data[i].volumeInfo.description ? data[i].volumeInfo.description.slice(0,140).replace(new RegExp("'",'g'), `''`) : ''}', 
+                '${data[i].volumeInfo.categories ? data[i].volumeInfo.categories.join(', ').replace(new RegExp("'",'g'), `''`) : ''}',
+                '${data[i].volumeInfo.publisher ? data[i].volumeInfo.publisher.replace(new RegExp("'",'g'), `''`) : ''}', 
+                '${data[i].volumeInfo.publishedDate ? data[i].volumeInfo.publishedDate.replace(new RegExp("'",'g'), `''`) : ''}',
+                '${data[i].volumeInfo.previewLink ? data[i].volumeInfo.previewLink : ''}',
+                ${searchHistory_id});\n`);
+
+            }
+            
+    client.query(queryString, (err, data) => {
+        if (err) {
+            cb(err);
+        } else {
+            cb(null, data);
+        }
+    })
 };
 
 module.exports = { getSearch, getBooks, postSearch, postBooks };
