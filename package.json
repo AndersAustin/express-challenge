@@ -4,10 +4,7 @@
   "description": "A small coding challenge to implement an API route to query the Google Books API",
   "main": "server.js",
   "dependencies": {
-    "axios": "^0.18.0",
-    "dotenv": "^8.0.0",
-    "express": "4.16.4",
-    "pg": "^7.11.0"
+    "express": "4.16.4"
   },
   "devDependencies": {},
   "scripts": {
